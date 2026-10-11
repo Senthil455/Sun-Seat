@@ -6,12 +6,12 @@ SunSeat: a 20-minute sunny-bench finder for night-shift workers, SAD winters, an
 I built it for myself in Chennai: short October evenings, no time for a hike, need sun fast without scrolling.
 
 ## Demo
-Live: https://sunseat.onrender.com
+Live: https://sun-seat.onrender.com (verified `/api/health ok`, frontend serves)
 Video (90s): screen search -> walk -> sunny bench -> mission card read aloud (narration in `demo-narration.txt`, MP3 via ElevenLabs).
 Offline proof: load once online, airplane mode on, reload `/` - results render from `localStorage sunseat_last`. Screenshot in repo `docs/` after you test.
 Cover: `frontend/cover.svg` (1000x420).
 
-If deploy is still building when you read this, run locally: `pip install -r requirements.txt && uvicorn backend.main:app --port 8000`.
+Local fallback if needed: `pip install -r requirements.txt && uvicorn backend.main:app --port 8000`.
 
 ## Code
 Repo: https://github.com/Senthil455/Sun-Seat (MIT)
