@@ -1,0 +1,3 @@
+# SunSeat demo narration (paste into ElevenLabs for final MP3, ~60s)
+
+"I work nights in Chennai. October sun is short. I open SunSeat, tap my location, twenty minutes, quiet. It finds three sunny benches near me using open map data, checks cloud and sun angle, and Gemma - running offline on my laptop, no signal needed - writes a sixty-second mission card. I walk five minutes, sit in the sun, breathe. Screen time under a minute. The rest is grass. That is SunSeat. Touch grass in twenty minutes, for every body."
