@@ -38,7 +38,7 @@ Closed maps hide the tags I filter on - surface, smoothness, bench, toilets. I c
 Closed AI dies on the trail: needs signal, per-token cost, uploads your location + photo. SunSeat caches OSM + weather JSON after first fetch, then Gemma 2B runs on the laptop with no internet, $0, private. I edited the prompt locally, swapped models, no approval, no bill. That offline airplane-mode run is the whole point - and only possible open.
 
 ## My Agent Session
-Built with GitHub Copilot CLI + this coding agent. Session: [paste DevRelay/Entire link here]. CI run: `.github/workflows/ci.yml` (health + tabpfn check). Screenshots to attach: Ollama `mode:local-open-weight` brief, Sentry trace, airplane-mode reload.
+Built with GitHub Copilot CLI + this coding agent. Process evidence: commit history + CI run `.github/workflows/ci.yml` (health + tabpfn check). Screenshots attached: Ollama `mode:local-open-weight` brief, airplane-mode reload.
 
 ## Prize Categories
 - Best Use of Gemma (local `gemma2:2b` mission card)
@@ -47,7 +47,6 @@ Built with GitHub Copilot CLI + this coding agent. Session: [paste DevRelay/Enti
 - Best Use of SerpApi (live foliage grounding / cached fallback)
 - Best Use of Sentry Agent Tracing (latency_ms + traces)
 - Best Use of GitHub Copilot (Copilot CLI + Actions CI)
-- Best Use of Entire (agent session link)
 - Best Use of ElevenLabs (`demo-narration.txt` -> MP3 narration)
 
 ## Outside test
