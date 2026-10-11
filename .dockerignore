@@ -1,0 +1,13 @@
+.git
+__pycache__
+*.pyc
+.env
+venv/
+.venv/
+docs/
+data/
+tests/
+scripts/
+frontend/cover.svg
+DEV_DRAFT.md
+DEV_POST_FINAL.md

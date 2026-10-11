@@ -8,5 +8,4 @@ services:
     envVars:
       - key: OLLAMA_MODEL
         value: gemma2:2b
-      - key: PORT
-        value: 8000
+    # NOTE: do not set PORT - Render injects its own and Dockerfile listens on $PORT.
