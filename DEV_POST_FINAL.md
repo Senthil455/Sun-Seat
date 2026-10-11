@@ -25,7 +25,7 @@ Repo: https://github.com/Senthil455/Sun-Seat (MIT)
 ## How I Built It
 Open core, not decoration:
 
-1. Gemma `gemma2:2b` via Ollama (`OLLAMA_HOST`, `OLLAMA_MODEL`) writes the mission card. Prompt + output logged in `/api/brief`. Local run returns `mode:local-open-weight`. Render free has no GPU/Ollama so it returns an honest `hosted-template-fallback` - include your local Ollama screenshot as proof.
+1. Gemma via Ollama writes the mission card. Prompt + output logged in `/api/brief`. Local run returns `mode:local-open-weight` - proof in `docs/ollama-proof.json` (tested `gemma3:270m`, same Gemma family; swap to `gemma2:2b` via `OLLAMA_MODEL` on more RAM). Render free has no GPU/Ollama so it returns an honest `hosted-template-fallback` - include your Ollama proof file as evidence.
 2. OSM Overpass supplies parks / benches / toilets + `surface/smoothness/incline` tags. Open-Meteo supplies cloud + radiation. Pure-python solar elevation + transparent `sun_score()` 0-100.
 3. TabPFN: `scripts/tabpfn_demo.py` trains `TabPFNRegressor` on `data/weather_history.csv` when installed, else sklearn fallback with stderr log. Backend `best_hour_tabpfn()` does the same live. Run `python scripts/tabpfn_demo.py --json` and paste output.
 4. SerpApi `/api/foliage`: live search when `SERPAPI_KEY` set, else `cached-offline`. Sentry inits when `SENTRY_DSN` set - paste trace + `latency_ms` from `/api/pockets`.

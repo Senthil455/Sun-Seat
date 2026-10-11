@@ -1,0 +1,6 @@
+{
+  "model": "gemma3:270m",
+  "mode": "local-open-weight",
+  "text": "Here's a 60-second mission card:\n\n**Mission Card:**\n\n* **Go-Now Line:** 13.08, 80.27\n* **What to Bring:** Sunny edge 1 (13.08, 80.27)\n* **Sit Spot:** Sunny edge 1 (13.08, 80.27)\n* **Safety + Leave-No-Trace:** No links",
+  "prompt": "You are SunSeat, a terse offline trail friend. User has 20 min. Needs: quiet. Pocket: Sunny edge 1 (13.08,80.27). Weather now: 30C, cloud 20%. Write a 60-second mission card: 1) go-now line 2) what to bring 3) sit spot 4) safety + leave-no-trace. Under 90 words. No links."
+}
