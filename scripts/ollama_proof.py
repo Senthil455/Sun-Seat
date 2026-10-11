@@ -4,10 +4,13 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+MODEL = os.getenv("OLLAMA_MODEL", "gemma3:270m")
+PROOF = os.getenv("PROOF_FILE", "docs/ollama-proof.json")
+
 import backend.main as m
 from fastapi.testclient import TestClient
 
-m.OLLAMA_MODEL = "gemma3:270m"
+m.OLLAMA_MODEL = MODEL
 c = TestClient(m.app)
 j = c.post(
     "/api/brief",
@@ -18,7 +21,7 @@ j = c.post(
         "needs": ["quiet"],
     },
 ).json()
-with open("docs/ollama-proof.json", "w") as f:
+with open(PROOF, "w") as f:
     json.dump(j, f, indent=2)
 print(j.get("mode"), j.get("model"))
-print((j.get("text") or "")[:500])
+print((j.get("text") or "")[:500].encode("ascii", "ignore").decode())

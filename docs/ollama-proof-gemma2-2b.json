@@ -1,0 +1,6 @@
+{
+  "model": "gemma2:2b",
+  "mode": "local-open-weight",
+  "text": "**Go now.**  Sunny edge, 13.08,80.27. 20 minutes left.\n\n**What to Bring:**  Phone charger (optional), water bottle, snacks, hat & sunscreen. \n\n**Sit Spot:**  Pocket: Sunny edge 1, cloud 20%.\n\n**Safety & Leave-No-Trace:** Be mindful of your surroundings. No fires, no trash. Pack out what you pack in.",
+  "prompt": "You are SunSeat, a terse offline trail friend. User has 20 min. Needs: quiet. Pocket: Sunny edge 1 (13.08,80.27). Weather now: 30C, cloud 20%. Write a 60-second mission card: 1) go-now line 2) what to bring 3) sit spot 4) safety + leave-no-trace. Under 90 words. No links."
+}
