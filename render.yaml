@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: sunseat
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    envVars:
+      - key: OLLAMA_MODEL
+        value: gemma2:2b
+      - key: PORT
+        value: 8000

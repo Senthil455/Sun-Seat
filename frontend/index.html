@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SunSeat - 20 min sun pockets</title>
+<style>
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;max-width:720px;margin:0 auto;padding:20px;background:#fffbe8;color:#222}
+.card{background:#fff;border:2px solid #222;border-radius:12px;padding:14px;margin:12px 0;box-shadow:4px 4px 0 #222}
+button{background:#ffd93d;border:2px solid #222;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}
+input,select{padding:8px;border:2px solid #222;border-radius:8px;margin:4px}
+.badge{display:inline-block;background:#222;color:#fff;border-radius:20px;padding:2px 10px;font-size:12px;margin:2px}
+pre{white-space:pre-wrap;background:#f6f6f6;padding:10px;border-radius:8px}
+</style>
+</head>
+<body>
+<h1>SunSeat</h1>
+<p>Find a sunny bench in 20 min. Screen &lt;60s, rest outside. Offline-first, Gemma-local.</p>
+
+<div class="card">
+<button id="geo">Use my location</button>
+<div>
+Lat <input id="lat" value="13.0827" size="9" /> Lon <input id="lon" value="80.2707" size="9" />
+Min <select id="mins"><option>15</option><option selected>20</option><option>30</option><option>60</option></select>
+</div>
+<div>
+<label><input type="checkbox" value="flat" /> flat</label>
+<label><input type="checkbox" value="quiet" /> quiet</label>
+<label><input type="checkbox" value="toilet" /> toilet</label>
+<label><input type="checkbox" value="shade" /> shade-option</label>
+<label><input type="checkbox" value="dog" /> dog</label>
+</div>
+<button id="go">Find SunSeats</button>
+<span id="status"></span>
+</div>
+
+<div id="results"></div>
+
+<div class="card">
+<h3>Offline 60-sec card</h3>
+<pre id="brief">Press Brief on any pocket.</pre>
+<button id="speak">Speak card (free TTS demo, ElevenLabs file for final video)</button>
+<button id="copy">Copy card</button>
+</div>
+
+<div class="card">
+<h3>Why open matters (for your DEV post)</h3>
+<ul>
+<li>OSM exposes <code>surface/smoothness/bench/toilets</code> - closed maps hide them.</li>
+<li>Gemma 2B via Ollama runs with no signal, $0, private. Closed APIs need internet + $$ + location upload.</li>
+<li>Swap <code>gemma2:2b</code> to <code>llama3.2:1b</code> in one env var.</li>
+</ul>
+<pre id="debug"></pre>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+$('geo').onclick=()=>navigator.geolocation.getCurrentPosition(p=>{
+  $('lat').value=p.coords.latitude.toFixed(5); $('lon').value=p.coords.longitude.toFixed(5);
+});
+function needs(){return [...document.querySelectorAll('input[type=checkbox]:checked')].map(c=>c.value)}
+$('go').onclick=async()=>{
+  $('status').textContent='searching...';
+  const body={lat:parseFloat($('lat').value),lon:parseFloat($('lon').value),minutes:parseInt($('mins').value),needs:needs()};
+  try{
+    const r=await fetch('/api/pockets',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const j=await r.json();
+    localStorage.setItem('sunseat_last',JSON.stringify({body,j}));
+    $('debug').textContent='best_hour: '+JSON.stringify(j.best_hour)+' solar: '+j.solar_elev+' ms:'+j.latency_ms+(j.weather_offline?' OFFLINE-CACHE':'');
+    $('results').innerHTML=j.pockets.map((p,i)=>`<div class="card"><b>${i+1}. ${p.name}</b> <span class="badge">${p.sun_score} sun</span> <span class="badge">${p.kind}</span><br/>${p.lat.toFixed(4)},${p.lon.toFixed(4)} ${Object.keys(p.tags||{}).length?JSON.stringify(p.tags):''}<br/><button onclick='brief(${JSON.stringify(JSON.stringify(p))})'>Brief me</button> <a target="_blank" href="https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lon}#map=16/${p.lat}/${p.lon}">OSM</a></div>`).join('');
+    $('status').textContent='done - go outside';
+  }catch(e){ $('status').textContent='failed (offline? loaded cache below)';
+    const c=localStorage.getItem('sunseat_last'); if(c){$('debug').textContent='OFFLINE CACHE: '+c.slice(0,400)}
+  }
+};
+async function brief(pstr){
+  const p=JSON.parse(pstr);
+  const body={lat:parseFloat($('lat').value),lon:parseFloat($('lon').value),minutes:parseInt($('mins').value),needs:needs()};
+  const w=await (await fetch(`/api/weather?lat=${body.lat}&lon=${body.lon}`)).json();
+  const r=await fetch('/api/brief',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pocket:p,weather:w,minutes:body.minutes,needs:body.needs})});
+  const j=await r.json();
+  $('brief').textContent=`[${j.mode} ${j.model}]\n${j.text}`;
+  localStorage.setItem('sunseat_brief', $('brief').textContent);
+}
+$('speak').onclick=()=>{speechSynthesis.speak(new SpeechSynthesisUtterance($('brief').textContent.slice(0,400)))};
+$('copy').onclick=()=>navigator.clipboard.writeText($('brief').textContent);
+</script>
+</body>
+</html>
